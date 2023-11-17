@@ -11,7 +11,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const eventData = req.body;
-  const result = await db.collection('events').insertOne({...eventData});
+  eventData.user = process.env.MONGODB_USERNAME;
+  const result = await db.collection('events').insertOne({ ...eventData });
   res.status(201).json({
     message: 'Event created.',
     event: { ...eventData, id: result.insertedId },
